@@ -37,7 +37,7 @@ Amy is not just a language model; she is a **Live 3D Companion** rendered in rea
 ### 🎨 The Crown Jewel: Amy (Live AI Companion)
 <table>
   <tr>
-    <td width="65%">
+    <td width="75%" valign="top">
       Experience wellness through a <b>Live 3D Avatar (VRM)</b> powered by Google Gemini and Three.js.
       <br><br>
       <ul>
@@ -46,8 +46,8 @@ Amy is not just a language model; she is a **Live 3D Companion** rendered in rea
         <li><b>Barge-in Support</b>: Use the WebSocket-powered Mic mode for natural, bidirectional conversations where you can speak and be heard instantly.</li>
       </ul>
     </td>
-    <td width="35%" align="center">
-      <img src="public/amy_mascot.png" alt="Amy - Live 3D Companion" width="100%" style="border-radius: 12px; box-shadow: 0 4px 14px rgba(103, 232, 249, 0.3);" />
+    <td width="25%" align="center" valign="middle">
+      <img src="public/amy_mascot.png" alt="Amy - Live 3D Companion" width="220" style="border-radius: 12px; box-shadow: 0 4px 14px rgba(103, 232, 249, 0.3);" />
     </td>
   </tr>
 </table>
