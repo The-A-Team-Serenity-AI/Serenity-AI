@@ -5,10 +5,16 @@
   
   ### *Where Digital Art Meets Mental Wellness*
   
-  [![React](https://img.shields.io/badge/React-18+-61DAFB.svg)](https://reactjs.org/)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6.svg)](https://www.typescriptlang.org/)
-  [![Three.js](https://img.shields.io/badge/Three.js-Avatar-black.svg)](https://threejs.org/)
-  [![Gemini](https://img.shields.io/badge/AI-Gemini%202.5%20Flash-blue.svg)](https://ai.google.dev/)
+  <div align="center">
+    <img src="https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/Three.js-black?style=for-the-badge&logo=three.js&logoColor=white" alt="Three.js" />
+    <img src="https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white" alt="GSAP" />
+    <img src="https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white" alt="Gemini" />
+    <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+    <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite" />
+  </div>
 
   **"The world doesn't need another chatbot. It needs a companion that listens, reacts, and cares."**
 
@@ -29,10 +35,22 @@ Amy is not just a language model; she is a **Live 3D Companion** rendered in rea
 ## 🌟 Key Features
 
 ### 🎨 The Crown Jewel: Amy (Live AI Companion)
-Experience wellness through a **Live 3D Avatar (VRM)** powered by Google Gemini and Three.js.
-- **Emotion Recognition**: Amy detects the sentiment of your voice and text, reacting with dynamic facial blendshapes (happy, shy, frustrated, teasing).
-- **Proactive Empathy**: She giggles at your jokes, blushes at compliments, and offers a warm, playful presence.
-- **Barge-in Support**: Use the WebSocket-powered Mic mode for natural, bidirectional conversations where you can speak and be heard instantly.
+<table>
+  <tr>
+    <td width="65%">
+      Experience wellness through a <b>Live 3D Avatar (VRM)</b> powered by Google Gemini and Three.js.
+      <br><br>
+      <ul>
+        <li><b>Emotion Recognition</b>: Amy detects the sentiment of your voice and text, reacting with dynamic facial blendshapes (happy, shy, frustrated, teasing).</li>
+        <li><b>Proactive Empathy</b>: She giggles at your jokes, blushes at compliments, and offers a warm, playful presence.</li>
+        <li><b>Barge-in Support</b>: Use the WebSocket-powered Mic mode for natural, bidirectional conversations where you can speak and be heard instantly.</li>
+      </ul>
+    </td>
+    <td width="35%" align="center">
+      <img src="public/amy_mascot.png" alt="Amy - Live 3D Companion" width="100%" style="border-radius: 12px; box-shadow: 0 4px 14px rgba(103, 232, 249, 0.3);" />
+    </td>
+  </tr>
+</table>
 
 ### 🪜 The Progressive Trust Ladder
 A unique safety-first architecture designed to protect vulnerable users.
@@ -49,7 +67,6 @@ A unique safety-first architecture designed to protect vulnerable users.
 ---
 
 ## 🛡️ Ethical Safety
-- **Guardian Consent**: Mandatory email verification for users under 18.
 - **Real-Time Toxicity Filtering**: A 3-tier moderation system that prevents harmful content from reaching the community.
 - **Data Privacy**: End-to-end encryption for AI conversations and secure MongoDB Atlas storage.
 
@@ -109,7 +126,7 @@ serenity-ai/
 ## 📧 Connect & Support
 
 **Team Name**: The A Team  
-**Platform**: [Serenity AI Official](https://github.com/Kart-0010-0101)
+**Platform**: [Serenity AI Official](https://github.com/ankeshpatra/SerenityAI)
 
 ---
 
