@@ -233,7 +233,7 @@ Register new user with email/password.
 ```
 
 **Special Case: Admin Account**
-If email is `admin@serenityai.com` and password is `SerenityAIAdmin2025!`:
+If email is `admin@serenityai.com` and password is `SerenityAIAdmin2026!`:
 - Automatically set `readinessScore: 100`, `phase: "full-access"`
 - Pre-populate engagement metrics (6 chat sessions, 4 therapy types, 30 days)
 
@@ -472,7 +472,7 @@ Authorization: Bearer <JWT_TOKEN>
       "id": "60d5ec49f1b2c8b5e8f8e8e9",
       "name": "John Doe"
     },
-    "createdAt": "2025-02-15T10:30:00Z"
+    "createdAt": "2026-02-15T10:30:00Z"
   }
 }
 ```
@@ -497,7 +497,7 @@ Authorization: Bearer <JWT_TOKEN>
 {
   "title": "Group Meditation Session",
   "description": "Join us for a relaxing meditation",
-  "date": "2025-03-01",
+  "date": "2026-03-01",
   "time": "18:00",
   "location": "Zoom Link: https://zoom.us/j/123456789"
 }
@@ -510,7 +510,7 @@ Authorization: Bearer <JWT_TOKEN>
   "event": {
     "id": "60d5ec49f1b2c8b5e8f8e8e8",
     "title": "Group Meditation Session",
-    "date": "2025-03-01",
+    "date": "2026-03-01",
     "time": "18:00",
     "host": {
       "id": "60d5ec49f1b2c8b5e8f8e8e9",
@@ -548,7 +548,7 @@ Authorization: Bearer <JWT_TOKEN>
       "id": "60d5ec49f1b2c8b5e8f8e8e9",
       "name": "John Doe"
     },
-    "timestamp": "2025-02-15T10:30:00Z"
+    "timestamp": "2026-02-15T10:30:00Z"
   }
 }
 ```
@@ -1100,4 +1100,4 @@ phase = "community-readonly" (since 64.91 is between 40 and 70)
 
 Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for development guidelines or contact **Karthik B** at karthik.b.college@gmail.com.
 
-**Built with 💙 for project 2025**
+**Built with 💙 for project 2026**

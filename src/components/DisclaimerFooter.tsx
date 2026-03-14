@@ -63,7 +63,7 @@ const DisclaimerFooter: React.FC = () => {
 
         {/* Footer Links */}
         <div className="flex flex-wrap justify-center items-center gap-4 text-white/60 text-xs border-t border-white/5 pt-4">
-          <span>© 2025 Serenity AI. All rights reserved.</span>
+          <span>© 2026 Serenity AI. All rights reserved.</span>
           <span>•</span>
           <a href="/community-guidelines" className="hover:text-cyan-300 transition-colors">Community Guidelines</a>
           <span>•</span>

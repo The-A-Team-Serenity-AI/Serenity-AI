@@ -1687,7 +1687,7 @@ const httpServer = http.createServer(app);
 const wss = new WebSocketServer({ server: httpServer, path: '/api/mascot/live' });
 
 const LIVE_API_KEY = process.env.LIVE_API_KEY;
-const LIVE_MODEL = 'gemini-2.5-flash-native-audio-preview-12-2025';
+const LIVE_MODEL = 'gemini-2.5-flash-native-audio-preview-12-2026';
 const GEMINI_WS_URL = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=${LIVE_API_KEY}`;
 
 console.log(`🎙️ Live API key loaded: ${LIVE_API_KEY ? LIVE_API_KEY.substring(0, 12) + '...' : '❌ MISSING'}`);

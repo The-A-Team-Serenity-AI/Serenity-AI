@@ -230,7 +230,7 @@ const CommunityGuidelines: React.FC = () => {
 
         {/* Footer */}
         <div className="text-center text-white/60 text-sm mt-12">
-          <p>Last updated: November 16, 2025</p>
+          <p>Last updated: November 16, 2026</p>
           <p className="mt-2">
             By using Serenity AI, you agree to follow these Community Guidelines.
           </p>
