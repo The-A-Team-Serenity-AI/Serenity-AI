@@ -1,13 +1,12 @@
 import React from 'react';
 import MoodAssessment from '../components/MoodAssessment';
-import backgroundImage from '../imgs/sentiscopeBG.jpeg';
 
 const MoodAssessmentPage: React.FC = () => {
   return (
     <div 
       className="min-h-screen bg-cover bg-center bg-no-repeat relative"
       style={{
-        backgroundImage: `url(${backgroundImage})`
+        backgroundImage: 'url(/images/sentiscopeBG.jpeg)'
       }}
     >
       {/* Dark overlay for better text readability */}
