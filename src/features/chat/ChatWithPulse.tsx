@@ -350,13 +350,19 @@ If you're in immediate danger, please call emergency services (911) or go to you
         return; // Exit early, don't proceed with normal AI response
       }
       
-      if (!genAI || !GOOGLE_API_KEY) {
+      // Get all available API keys
+      const primaryKey = import.meta.env.VITE_GOOGLE_AI_API_KEY;
+      const mascotKey = import.meta.env.MASCOT_GEMINI_API_KEY;
+      const fallbackKeysStr = import.meta.env.VITE_FALLBACK_API_KEYS || '';
+      const fallbackKeys = fallbackKeysStr.split(',').map((k: string) => k.trim()).filter(Boolean);
+      
+      // Build pool of unique keys
+      const allKeys = [...new Set([primaryKey, mascotKey, ...fallbackKeys].filter(Boolean))];
+      
+      if (allKeys.length === 0) {
         throw new Error('Google AI API key is not configured. Please set VITE_GOOGLE_AI_API_KEY in your environment variables.');
       }
       
-      // Initialize the model
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-
       // Prepare the conversation context
       const conversationHistory = messages.map(msg => 
         `${msg.sender === "user" ? "User" : "Assistant"}: ${msg.text}`
@@ -386,9 +392,37 @@ User: ${currentInput}
 
 Assistant:`;
 
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const botReply = response.text() || "I'm here to assist you!";
+      let botReply = "I'm here to assist you!";
+      let success = false;
+      let lastError: any = null;
+
+      // Try hitting the API, rotating through keys if we hit a 429 Rate Limit
+      for (const currentKey of allKeys) {
+        try {
+          const tempGenAI = new GoogleGenerativeAI(currentKey);
+          const model = tempGenAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+          
+          const result = await model.generateContent(prompt);
+          const response = await result.response;
+          botReply = response.text() || botReply;
+          success = true;
+          break; // Key worked, exit the loop
+        } catch (err: any) {
+          lastError = err;
+          // If it's a 429 Too Many Requests, log it and the loop will try the next key
+          if (err?.status === 429 || err?.message?.includes('429') || err?.message?.includes('quota')) {
+            console.warn(`API Key rate limited, automatically switching to fallback key...`);
+            continue;
+          } else {
+            // Unrelated error (like bad format), throw it immediately
+            throw err;
+          }
+        }
+      }
+
+      if (!success) {
+        throw lastError; // All keys failed or final error
+      }
       
       // Start typewriter effect immediately
       setIsTyping(true);
@@ -415,6 +449,8 @@ Assistant:`;
         errorMessage = "Invalid API key. Please check your Google AI API configuration.";
       } else if (error.message?.includes('PERMISSION_DENIED')) {
         errorMessage = "Access denied. Please check your Google AI API permissions.";
+      } else if (error.status === 429 || error.message?.includes('429') || error.message?.includes('quota')) {
+        errorMessage = "We're experiencing uncommonly high traffic right now and all our failover systems are busy. Please take a deep breath and try again in a few minutes.";
       } else if (error.response) {
         console.error("API Error:", error.response.data);
         errorMessage = error.response.data?.error || errorMessage;

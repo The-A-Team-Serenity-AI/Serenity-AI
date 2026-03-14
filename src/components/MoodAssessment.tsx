@@ -64,8 +64,14 @@ const MoodAssessment: React.FC = () => {
   const MIN_QUESTIONS = 10;
   const MAX_QUESTIONS = 15;
 
-  // Initialize AI
-  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GOOGLE_AI_API_KEY);
+  // Helper to get all API keys in a pool
+  const getApiKeys = () => {
+    const primaryKey = import.meta.env.VITE_GOOGLE_AI_API_KEY;
+    const mascotKey = import.meta.env.MASCOT_GEMINI_API_KEY;
+    const fallbackKeysStr = import.meta.env.VITE_FALLBACK_API_KEYS || '';
+    const fallbackKeys = fallbackKeysStr.split(',').map((k: string) => k.trim()).filter(Boolean);
+    return [...new Set([primaryKey, mascotKey, ...fallbackKeys].filter(Boolean))];
+  };
 
   // Fallback questions if AI generation fails
   const fallbackQuestions = [
@@ -93,13 +99,9 @@ const MoodAssessment: React.FC = () => {
 
     try {
       console.log('🔄 Attempting to generate question with AI...', {
-        apiKey: import.meta.env.VITE_GOOGLE_AI_API_KEY ? 'Present' : 'Missing',
+        keysAvailable: getApiKeys().length,
         previousAnswers: previousAnswers.length
       });
-
-      // Use gemini-2.5-flash-lite (higher free-tier quota)
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-      console.log('📡 Using model: gemini-2.5-flash-lite');
 
       const answerContext = previousAnswers.map(a => 
         `Q: ${a.questionText}\nAnswer: ${a.score}/5`
@@ -119,10 +121,34 @@ Requirements:
 Generate the next question:`;
 
       console.log('📤 Sending request to Gemini API...');
-      const result = await model.generateContent(prompt);
-      console.log('📥 Received response from Gemini API');
       
-      const questionText = result.response.text().trim();
+      const allKeys = getApiKeys();
+      if (allKeys.length === 0) throw new Error('No API keys configured');
+
+      let questionText = '';
+      let success = false;
+      let lastError: any = null;
+
+      for (const currentKey of allKeys) {
+        try {
+          const tempGenAI = new GoogleGenerativeAI(currentKey);
+          const model = tempGenAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+          const result = await model.generateContent(prompt);
+          questionText = result.response.text().trim();
+          success = true;
+          break;
+        } catch (err: any) {
+          lastError = err;
+          if (err?.status === 429 || err?.message?.includes('429') || err?.message?.includes('quota')) {
+            console.warn(`API Key rate limited (Sentiscope Generation), switching to fallback key...`);
+            continue;
+          }
+          throw err;
+        }
+      }
+
+      if (!success) throw lastError;
+      
       console.log('✅ Generated question:', questionText);
 
       if (questionText && questionText.length > 10 && questionText.length < 200) {
@@ -249,8 +275,6 @@ Generate the next question:`;
   // AI-powered personalized therapy recommendations
   const analyzeAndRecommend = async (userAnswers: Answer[]) => {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-
       const answerContext = userAnswers.map(a => 
         `${a.questionText} → ${a.score}/5`
       ).join('\n');
@@ -278,13 +302,37 @@ MOOD_SUMMARY: You're navigating some challenging moments with stress and energy,
 
 Now analyze:`;
 
-      const result = await model.generateContent(prompt);
-      const response = result.response.text();
+      const allKeys = getApiKeys();
+      if (allKeys.length === 0) throw new Error('No API keys configured');
+
+      let responseText = '';
+      let success = false;
+      let lastError: any = null;
+
+      for (const currentKey of allKeys) {
+        try {
+          const tempGenAI = new GoogleGenerativeAI(currentKey);
+          const model = tempGenAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+          const result = await model.generateContent(prompt);
+          responseText = result.response.text();
+          success = true;
+          break;
+        } catch (err: any) {
+          lastError = err;
+          if (err?.status === 429 || err?.message?.includes('429') || err?.message?.includes('quota')) {
+            console.warn(`API Key rate limited (Sentiscope Analysis), switching to fallback key...`);
+            continue;
+          }
+          throw err;
+        }
+      }
+
+      if (!success) throw lastError;
 
       // Parse response
-      const therapiesMatch = response.match(/THERAPIES:\s*(.+)/);
-      const reasoningMatch = response.match(/REASONING:\s*(.+?)(?=MOOD_SUMMARY:|$)/s);
-      const moodMatch = response.match(/MOOD_SUMMARY:\s*(.+)/);
+      const therapiesMatch = responseText.match(/THERAPIES:\s*(.+)/);
+      const reasoningMatch = responseText.match(/REASONING:\s*(.+?)(?=MOOD_SUMMARY:|$)/s);
+      const moodMatch = responseText.match(/MOOD_SUMMARY:\s*(.+)/);
 
       const therapies = therapiesMatch 
         ? therapiesMatch[1].trim().split(',').map(t => t.trim())
