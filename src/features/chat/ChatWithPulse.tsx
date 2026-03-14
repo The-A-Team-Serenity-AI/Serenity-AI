@@ -479,7 +479,7 @@ Assistant:`;
 
   return (
     <div className="min-h-screen bg-stress-gray flex items-center justify-center p-4" style={{
-      backgroundImage: 'url("/src/imgs/yog.jpg")',
+      backgroundImage: 'url("/images/yog.jpg")',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'

@@ -57,7 +57,7 @@ const PhysicalTherapy: React.FC = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(/src/imgs/training.jpg)',
+            backgroundImage: 'url(/images/training.jpg)',
           }}
         >
           <div className="absolute inset-0 bg-stress-dark/50"></div>
@@ -194,7 +194,7 @@ const PhysicalTherapy: React.FC = () => {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div data-aos="fade-up-right" className="text-white/90">
             <img 
-              src="/src/imgs/yog.jpg"
+              src="/images/yog.jpg"
               alt="Physical Therapy Benefits"
               className="w-full rounded-xl shadow-xl"
             />
@@ -252,19 +252,19 @@ const PhysicalTherapy: React.FC = () => {
             {
               title: "Stretching Exercises",
               description: "Basic stretching exercises to improve flexibility and reduce muscle tension. These exercises help in maintaining good posture and preventing injuries.",
-              image: "/src/imgs/yoga1.jpg",
+              image: "/images/yoga1.jpg",
               link: "https://www.artofliving.org/in-en/yoga/yoga-poses/standing-backward-bend"
             },
             {
               title: "Strength Training",
               description: "Build muscle strength and improve overall fitness with these targeted exercises. Perfect for maintaining a healthy body and mind.",
-              image: "/src/imgs/yoga2.jpg",
+              image: "/images/yoga2.jpg",
               link: "https://www.artofliving.org/in-en/yoga/yoga-poses/warrior-pose-virbhadrasana"
             },
             {
               title: "Balance Exercises",
               description: "Enhance your stability and coordination with these balance-focused exercises. Great for improving focus and mental clarity.",
-              image: "/src/imgs/yoga3.jpg",
+              image: "/images/yoga3.jpg",
               link: "https://www.artofliving.org/in-en/yoga/yoga-poses/reverse-prayer-pose"
             }
           ].map((exercise, index) => (

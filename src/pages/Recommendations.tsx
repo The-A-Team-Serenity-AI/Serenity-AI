@@ -262,7 +262,7 @@ function Recommendations() {
     <div
       className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative"
       style={{
-        backgroundImage: `url('/src/imgs/community_bg.avif')`,
+        backgroundImage: `url('/images/community_bg.avif')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

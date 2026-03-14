@@ -6,12 +6,12 @@ import 'aos/dist/aos.css';
 
 const LaughingTherapy: React.FC = () => {
   const memeImages = [
-    '/src/imgs/meme1.jpg',
-    '/src/imgs/meme2.jpg',
-    '/src/imgs/meme3.jpg',
-    '/src/imgs/meme4.jpg',
-    '/src/imgs/meme5.jpg',
-    '/src/imgs/meme6.jpg'
+    '/images/meme1.jpg',
+    '/images/meme2.jpg',
+    '/images/meme3.jpg',
+    '/images/meme4.jpg',
+    '/images/meme5.jpg',
+    '/images/meme6.jpg'
   ];
 
   const location = useLocation();
@@ -80,7 +80,7 @@ const LaughingTherapy: React.FC = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(/src/imgs/laugh.jpg)',
+            backgroundImage: 'url(/images/laugh.jpg)',
           }}
         >
           <div className="absolute inset-0 bg-black/50"></div>
@@ -217,7 +217,7 @@ const LaughingTherapy: React.FC = () => {
         </h1>
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div data-aos="fade-up-right" data-aos-duration="5000" className="image">
-            <img src="/src/imgs/laugh2.jpg" alt="Laughing Therapy" className="rounded-2xl shadow-xl" />
+            <img src="/images/laugh2.jpg" alt="Laughing Therapy" className="rounded-2xl shadow-xl" />
           </div>
           <div className="about-content">
             <h4 data-aos="fade-up-left" className="text-2xl font-semibold text-cyan-400 mb-6">
