@@ -81,7 +81,8 @@ const emailTransporter = nodemailer.createTransport({
 
 // Email sending helper function
 async function sendGuardianVerificationEmail(guardianEmail, childUsername, childEmail, verificationToken) {
-  const verificationLink = `http://localhost:5173/guardian/verify/${verificationToken}`;
+  const frontendBase = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/$/, '');
+  const verificationLink = `${frontendBase}/guardian/verify/${verificationToken}`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER || 'Serenity AI.noreply@gmail.com',
@@ -310,13 +311,13 @@ app.post('/api/auth/signup', async (req, res) => {
 
     const user = new User(userData);
     await user.save();
+    console.log('✅ User created successfully:', { email, isMinor });
 
-    // If minor, send guardian verification email
     if (isMinor && guardianEmail) {
+      // ... (rest same, omitting for brevity in chunk but ensuring consistency)
       const verificationToken = crypto.randomBytes(32).toString('hex');
-      const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+      const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); 
 
-      // Save guardian consent request
       const consentRequest = new GuardianConsent({
         userId: user._id,
         childUsername: username,
@@ -328,35 +329,28 @@ app.post('/api/auth/signup', async (req, res) => {
       });
       await consentRequest.save();
 
-      // Update user with verification token
       user.guardianVerificationToken = verificationToken;
       user.guardianVerificationExpiry = expiresAt;
       await user.save();
 
-      // Send verification email
       try {
         await sendGuardianVerificationEmail(guardianEmail, username, email, verificationToken);
-
-        // Don't issue token for minors pending approval
         return res.status(201).json({
           user,
-          message: 'Account created. Verification email sent to guardian. Please wait for guardian approval.',
+          message: 'Account created. Verification email sent to guardian.',
           requiresGuardianApproval: true
         });
       } catch (emailError) {
-        console.error('Failed to send guardian email:', emailError);
-        return res.status(500).json({
-          error: 'Account created but failed to send guardian verification email. Please contact support.'
-        });
+        console.error('❌ Failed to send guardian email:', emailError);
+        return res.status(500).json({ error: 'Failed to send guardian email' });
       }
     }
 
-    // For adults, issue token immediately
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
     res.status(201).json({ user, token });
   } catch (error) {
-    console.error('Signup error:', error);
-    res.status(400).json({ error: 'Failed to create account' });
+    console.error('❌ Signup error full stack:', error);
+    res.status(400).json({ error: error.message || 'Failed to create account' });
   }
 });
 
@@ -413,8 +407,8 @@ app.post('/api/auth/login', async (req, res) => {
 app.post('/api/auth/google', async (req, res) => {
   try {
     const { credential } = req.body;
+    console.log('Google Auth attempt. Client ID config length:', process.env.VITE_GOOGLE_OAUTH_CLIENT_ID?.length || 0);
 
-    // Verify the Google token
     const ticket = await googleClient.verifyIdToken({
       idToken: credential,
       audience: process.env.VITE_GOOGLE_OAUTH_CLIENT_ID,
@@ -422,31 +416,39 @@ app.post('/api/auth/google', async (req, res) => {
 
     const payload = ticket.getPayload();
     if (!payload) {
+      console.error('❌ Google Auth: Payload is empty');
       return res.status(400).json({ error: 'Invalid Google token' });
     }
 
     const { email, name, picture, sub: googleId } = payload;
+    console.log('Google Auth payload received for:', email);
 
-    // Check if user exists
     let user = await User.findOne({ email });
 
     if (!user) {
-      // Create new user
       user = new User({
         username: name || 'Google User',
         email: email,
-        city: 'Not specified', // Default city for Google users
-        password: await bcrypt.hash(googleId, 8), // Use Google ID as password base
+        city: 'Not specified',
+        password: await bcrypt.hash(googleId, 8),
         googleId: googleId,
-        avatar: picture
+        avatar: picture,
+        accountActivated: true // Google users don't need minor-verification for now
       });
       await user.save();
-      console.log('New Google user created:', { email, username: name });
-    } else {
-      console.log('Existing user logged in via Google:', { email });
+      console.log('✅ New Google user created:', email);
     }
 
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+    res.json({
+      user: { _id: user._id, username: user.username, email: user.email, city: user.city },
+      token
+    });
+  } catch (error) {
+    console.error('❌ Google Auth backend error stack:', error);
+    res.status(401).json({ error: 'Google authentication failed' });
+  }
+});
 
     // Return user data without password
     const userData = {
