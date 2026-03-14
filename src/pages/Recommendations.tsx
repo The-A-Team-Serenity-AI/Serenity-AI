@@ -108,7 +108,7 @@ function Recommendations() {
   const fetchReadiness = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/user/readiness', {
+      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/readiness', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setReadinessData(response.data);
@@ -119,7 +119,7 @@ function Recommendations() {
 
   const fetchRecommendations = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/recommendations');
+      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/recommendations');
       setRecommendations(response.data);
     } catch (error) {
       console.error('Error fetching recommendations:', error);
@@ -129,7 +129,7 @@ function Recommendations() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/events');
+      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/events');
       setEvents(response.data);
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -142,7 +142,7 @@ function Recommendations() {
   const fetchMyEvents = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/events/my-events', {
+      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/events/my-events', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMyEvents(response.data);
@@ -154,7 +154,7 @@ function Recommendations() {
   const handleJoinEvent = async (eventId: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/events/${eventId}/join`, {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/events/${eventId}/join`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchEvents();
@@ -167,7 +167,7 @@ function Recommendations() {
   const handleAcceptRejectRequest = async (eventId: string, participantId: string, status: 'accepted' | 'rejected') => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/events/${eventId}/participants/${participantId}`, 
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/events/${eventId}/participants/${participantId}`, 
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -180,7 +180,7 @@ function Recommendations() {
   const handleLikeEvent = async (eventId: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/events/${eventId}/like`, {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/events/${eventId}/like`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchEvents();
@@ -192,7 +192,7 @@ function Recommendations() {
   const handleDislikeEvent = async (eventId: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/events/${eventId}/dislike`, {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/events/${eventId}/dislike`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchEvents();
@@ -204,7 +204,7 @@ function Recommendations() {
   const handleLikeRecommendation = async (recommendationId: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/recommendations/${recommendationId}/like`, {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/recommendations/${recommendationId}/like`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchRecommendations();
@@ -216,7 +216,7 @@ function Recommendations() {
   const handleDislikeRecommendation = async (recommendationId: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/recommendations/${recommendationId}/dislike`, {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/recommendations/${recommendationId}/dislike`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchRecommendations();

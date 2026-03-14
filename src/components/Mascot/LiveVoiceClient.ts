@@ -65,7 +65,11 @@ class LiveVoiceClient {
       this.audioCtx = new AudioContext({ sampleRate: 24000 });
 
       // Open WebSocket to our server's proxy
-      const wsUrl = `ws://${window.location.hostname}:5000/api/mascot/live`;
+      // Use the environment variable for the backend URL, converting http/https to ws/wss
+      const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const wsProtocol = backendUrl.startsWith('https') ? 'wss' : 'ws';
+      const hostnameAndPort = backendUrl.replace(/^https?:\/\//, '');
+      const wsUrl = `${wsProtocol}://${hostnameAndPort}/api/mascot/live`;
       this.ws = new WebSocket(wsUrl);
 
       await new Promise<void>((resolve, reject) => {

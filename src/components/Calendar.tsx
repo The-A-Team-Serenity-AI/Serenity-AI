@@ -74,7 +74,7 @@ const CreateEventModal: React.FC<CreateEventModalProps> = ({ isOpen, onClose, on
       
       console.log('Creating event with data:', eventData);
       
-      const response = await axios.post('http://localhost:5000/api/events', eventData, {
+      const response = await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/events', eventData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -211,7 +211,7 @@ const Calendar: React.FC = () => {
   const fetchEvents = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/events', {
+      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/events', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setEvents(response.data);

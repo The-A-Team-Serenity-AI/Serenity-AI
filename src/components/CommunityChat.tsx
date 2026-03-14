@@ -42,7 +42,7 @@ const CommunityChat: React.FC<CommunityChatProps> = ({ onClose }) => {
   const fetchMessages = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/chat/messages', {
+      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/chat/messages', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessages(response.data);
@@ -60,7 +60,7 @@ const CommunityChat: React.FC<CommunityChatProps> = ({ onClose }) => {
     try {
       const token = localStorage.getItem('token');
       console.log('Sending message:', newMessage);
-      const response = await axios.post('http://localhost:5000/api/chat/messages', 
+      const response = await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/chat/messages', 
         { message: newMessage },
         { headers: { Authorization: `Bearer ${token}` } }
       );

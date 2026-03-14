@@ -24,7 +24,7 @@ function CreateTask() {
       }
 
       await axios.post(
-        'http://localhost:5000/api/create-task',
+        (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/create-task',
         { type, title, description },
         {
           headers: { Authorization: `Bearer ${token}` }

@@ -91,7 +91,7 @@ function ChatWithPulse() {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await axios.post('http://localhost:5000/api/user/track-engagement', 
+        await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/track-engagement', 
           { action, data },
           { headers: { Authorization: `Bearer ${token}` }}
         );

@@ -46,7 +46,7 @@ const LaughingTherapy: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await fetch('http://localhost:5000/api/user/track-engagement', {
+        await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/track-engagement', {
           method: 'POST',
           headers: { 
             'Authorization': `Bearer ${token}`,

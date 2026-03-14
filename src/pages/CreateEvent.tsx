@@ -28,7 +28,7 @@ function CreateEvent() {
       }
 
       await axios.post(
-        'http://localhost:5000/api/events',
+        (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/events',
         {
           sport,
           title,

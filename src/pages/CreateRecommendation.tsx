@@ -24,7 +24,7 @@ function CreateRecommendation() {
       }
 
       await axios.post(
-        'http://localhost:5000/api/recommendations',
+        (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/recommendations',
         { type, title, description },
         {
           headers: { Authorization: `Bearer ${token}` }
