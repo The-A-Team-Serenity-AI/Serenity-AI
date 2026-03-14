@@ -126,7 +126,7 @@ serenity-ai/
 ## 📧 Connect & Support
 
 **Team Name**: The A Team  
-**Platform**: [Serenity AI Official](https://github.com/ankeshpatra/SerenityAI)
+**Platform**: [Serenity AI Official](https://github.com/The-A-Team-Serenity-AI/Serenity-AI)
 
 ---
 
