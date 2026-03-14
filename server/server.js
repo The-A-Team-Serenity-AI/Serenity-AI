@@ -34,7 +34,25 @@ if (missingEnvVars.length > 0) {
 
 const googleClient = new OAuth2Client(process.env.VITE_GOOGLE_OAUTH_CLIENT_ID);
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  process.env.FRONTEND_URL // Vercel URL, set this in Render!
+].filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Connect to MongoDB
@@ -1687,7 +1705,7 @@ const httpServer = http.createServer(app);
 const wss = new WebSocketServer({ server: httpServer, path: '/api/mascot/live' });
 
 const LIVE_API_KEY = process.env.LIVE_API_KEY;
-const LIVE_MODEL = 'gemini-2.5-flash-native-audio-preview-12-2026';
+const LIVE_MODEL = 'gemini-2.5-flash-native-audio-preview-12-2025';
 const GEMINI_WS_URL = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=${LIVE_API_KEY}`;
 
 console.log(`🎙️ Live API key loaded: ${LIVE_API_KEY ? LIVE_API_KEY.substring(0, 12) + '...' : '❌ MISSING'}`);
