@@ -450,21 +450,6 @@ app.post('/api/auth/google', async (req, res) => {
   }
 });
 
-    // Return user data without password
-    const userData = {
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      city: user.city
-    };
-
-    res.json({ user: userData, token });
-  } catch (error) {
-    console.error('Google auth error:', error);
-    res.status(400).json({ error: 'Google authentication failed' });
-  }
-});
-
 // Get Current User
 app.get('/api/auth/me', auth, async (req, res) => {
   try {
