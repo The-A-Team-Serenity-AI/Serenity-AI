@@ -37,15 +37,16 @@ const googleClient = new OAuth2Client(process.env.VITE_GOOGLE_OAUTH_CLIENT_ID);
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
-  process.env.FRONTEND_URL // Vercel URL, set this in Render!
-].filter(Boolean);
+  process.env.FRONTEND_URL
+].filter(Boolean).map(origin => origin.replace(/\/$/, ''));
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+    
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    if (allowedOrigins.indexOf(normalizedOrigin) === -1) {
+      const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
       return callback(new Error(msg), false);
     }
     return callback(null, true);

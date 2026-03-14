@@ -1,3 +1,4 @@
+import { getApiUrl } from './utils/api';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { MessageCircle, User, ChevronDown, Activity } from 'lucide-react';
@@ -60,7 +61,7 @@ function AppContent() {
       
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/readiness', {
+        const response = await fetch(getApiUrl('/api/user/readiness'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await response.json();

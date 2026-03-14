@@ -1,3 +1,4 @@
+import { getApiUrl } from '../utils/api';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Loader2, AlertTriangle, CheckCircle } from 'lucide-react';
@@ -381,7 +382,7 @@ Now analyze:`;
       const token = localStorage.getItem('token');
       if (token) {
         console.log('Tracking Sentiscope completion with score:', score);
-        const response = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/track-engagement', {
+        const response = await fetch(getApiUrl('/api/user/track-engagement'), {
           method: 'POST',
           headers: { 
             'Authorization': `Bearer ${token}`,

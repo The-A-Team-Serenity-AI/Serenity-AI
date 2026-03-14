@@ -1,3 +1,4 @@
+import { getApiUrl } from '../utils/api';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -94,7 +95,7 @@ const ProfilePage: React.FC = () => {
   const fetchReadinessData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/readiness', {
+      const response = await axios.get(getApiUrl('/api/user/readiness'), {
         headers: { Authorization: `Bearer ${token}` }
       });
       setReadinessData(response.data);

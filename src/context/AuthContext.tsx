@@ -1,3 +1,4 @@
+import { getApiUrl } from '../utils/api';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -26,7 +27,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Function to fetch user data
   const fetchUserData = async (token: string): Promise<User | null> => {
     try {
-      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/auth/me', {
+      const response = await axios.get(getApiUrl('/api/auth/me'), {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUser(response.data);
@@ -52,7 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/auth/login', {
+      const response = await axios.post(getApiUrl('/api/auth/login'), {
         email,
         password
       });
@@ -79,7 +80,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signup = async (username: string, email: string, city: string, password: string) => {
     try {
-      const response = await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/auth/signup', {
+      const response = await axios.post(getApiUrl('/api/auth/signup'), {
         username,
         email,
         city,
@@ -114,7 +115,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const googleLogin = async (credential: string) => {
     try {
-      const response = await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/auth/google', {
+      const response = await axios.post(getApiUrl('/api/auth/google'), {
         credential
       });
       

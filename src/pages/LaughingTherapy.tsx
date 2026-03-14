@@ -1,3 +1,4 @@
+import { getApiUrl } from '../utils/api';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Laugh, TrendingUp, Heart, AlertCircle } from 'lucide-react';
@@ -46,7 +47,7 @@ const LaughingTherapy: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/track-engagement', {
+        await fetch(getApiUrl('/api/user/track-engagement'), {
           method: 'POST',
           headers: { 
             'Authorization': `Bearer ${token}`,

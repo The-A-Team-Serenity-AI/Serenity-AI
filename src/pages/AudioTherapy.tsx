@@ -1,3 +1,4 @@
+import { getApiUrl } from '../utils/api';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { Music, TrendingUp, Heart, AlertCircle } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
@@ -99,7 +100,7 @@ function AudioTherapy() {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/user/track-engagement', {
+        await fetch(getApiUrl('/api/user/track-engagement'), {
           method: 'POST',
           headers: { 
             'Authorization': `Bearer ${token}`,

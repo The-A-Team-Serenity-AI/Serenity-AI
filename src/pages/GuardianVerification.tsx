@@ -1,3 +1,4 @@
+import { getApiUrl } from '../utils/api';
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AlertCircle, CheckCircle, XCircle, Clock, Shield } from 'lucide-react';
@@ -27,7 +28,7 @@ const GuardianVerification: React.FC = () => {
 
   const fetchConsentRequest = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/guardian/consent/${token}`);
+      const response = await fetch(getApiUrl(`/api/guardian/consent/${token}`));
       
       if (!response.ok) {
         const data = await response.json();
@@ -48,7 +49,7 @@ const GuardianVerification: React.FC = () => {
     
     setProcessing(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/guardian/approve/${token}`, {
+      const response = await fetch(getApiUrl(`/api/guardian/approve/${token}`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -73,7 +74,7 @@ const GuardianVerification: React.FC = () => {
     
     setProcessing(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/guardian/deny/${token}`, {
+      const response = await fetch(getApiUrl(`/api/guardian/deny/${token}`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reason: reason || 'No reason provided' })

@@ -1,3 +1,4 @@
+import { getApiUrl } from '../utils/api';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
@@ -29,7 +30,7 @@ const Notifications: React.FC = () => {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/notifications', {
+      const response = await axios.get(getApiUrl('/api/notifications'), {
         headers: { Authorization: `Bearer ${token}` }
       });
       setNotifications(response.data);
@@ -41,7 +42,7 @@ const Notifications: React.FC = () => {
   const markAsRead = async (notificationId: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/notifications/${notificationId}/read`, {}, {
+      await axios.put(getApiUrl(`/api/notifications/${notificationId}/read`), {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setNotifications(notifications.map(notification =>

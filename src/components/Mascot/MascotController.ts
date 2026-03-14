@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../utils/api';
 import { VRM, VRMExpressionPresetName } from '@pixiv/three-vrm';
 
 export type EmotionName = 'happy' | 'embarrassed' | 'angry' | 'neutral' | 'thinking' | 'blushing' | 'teasing' | 'frustrated';
@@ -93,7 +94,7 @@ class VoiceController {
 
     // Try Gemini TTS first
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/mascot/tts', {
+      const res = await fetch(getApiUrl('/api/mascot/tts'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),

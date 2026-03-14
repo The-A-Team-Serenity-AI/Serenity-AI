@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../utils/api';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { emotionController, EmotionName, voiceController } from './MascotController';
 import { animationController } from './MascotAnimations';
@@ -135,7 +136,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ onGreeting }) => {
     loadingRef.current = true;
 
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/mascot/chat', {
+      const res = await fetch(getApiUrl('/api/mascot/chat'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: msgText }),

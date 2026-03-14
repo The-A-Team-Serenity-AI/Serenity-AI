@@ -1,3 +1,4 @@
+import { getApiUrl } from '../utils/api';
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Send, Smile } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -42,7 +43,7 @@ const CommunityChat: React.FC<CommunityChatProps> = ({ onClose }) => {
   const fetchMessages = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/chat/messages', {
+      const response = await axios.get(getApiUrl('/api/chat/messages'), {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessages(response.data);
@@ -60,7 +61,7 @@ const CommunityChat: React.FC<CommunityChatProps> = ({ onClose }) => {
     try {
       const token = localStorage.getItem('token');
       console.log('Sending message:', newMessage);
-      const response = await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/chat/messages', 
+      const response = await axios.post(getApiUrl('/api/chat/messages'), 
         { message: newMessage },
         { headers: { Authorization: `Bearer ${token}` } }
       );
