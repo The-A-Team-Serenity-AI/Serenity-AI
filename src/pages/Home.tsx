@@ -114,7 +114,7 @@ function Home() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <img
-                  src="src/imgs/SerenityAIlogo.png"
+                  src="/images/SerenityAIlogo.png"
                   alt="Serenity AI Logo"
                   className="h-7 w-auto"
                 />
