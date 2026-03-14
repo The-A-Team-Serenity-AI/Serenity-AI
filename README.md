@@ -18,7 +18,7 @@
 
   **"The world doesn't need another chatbot. It needs a companion that listens, reacts, and cares."**
 
-  **Get Started Here**: https:// <placeholder>
+  **Get Started Here**: https://serenity-ai-seven.vercel.app
 </div>
 
 ---
