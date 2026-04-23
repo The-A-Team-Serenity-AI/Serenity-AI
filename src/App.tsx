@@ -1,7 +1,7 @@
 import { getApiUrl } from './utils/api';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
-import { MessageCircle, User, ChevronDown, Activity } from 'lucide-react';
+import { User, ChevronDown, Activity } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import Services from './pages/Services';
@@ -263,8 +263,6 @@ function AppContent() {
       {!isIntroPage && <DisclaimerFooter />}
 
 
-      {/* Chatbot Component */}
-      {!isIntroPage && showChat && <Chatbot showChat={showChat} setShowChat={setShowChat} />}
 
       {/* Age Verification Modal */}
       {!isIntroPage && showAgeVerification && <AgeVerificationModal onVerify={handleAgeVerification} />}
