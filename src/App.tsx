@@ -31,6 +31,7 @@ import CriticalWellnessBanner from './components/CriticalWellnessBanner';
 import CrisisPopup from './components/CrisisPopup';
 import MascotPage from './pages/MascotPage';
 import LogoutButton from './components/LogoutButton';
+import SocialSimulator from './pages/SocialSimulator';
 
 // TODO: Consider moving these routes to a separate config file
 // FIXME: Need to implement proper error boundaries for route components
@@ -247,6 +248,7 @@ function AppContent() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/diary" element={<Diary />} />
           <Route path="/mascot" element={<MascotPage />} />
+          <Route path="/social-simulator" element={<SocialSimulator />} />
 
           <Route path="/guardian/verify/:token" element={<GuardianVerification />} />
           <Route path="/community-guidelines" element={<CommunityGuidelines />} />

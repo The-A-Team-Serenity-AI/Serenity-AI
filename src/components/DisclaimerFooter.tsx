@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertCircle, Phone, MessageSquare, ExternalLink } from 'lucide-react';
+import { AlertCircle, Phone, MessageSquare, ExternalLink, ShieldAlert } from 'lucide-react';
 
 const DisclaimerFooter: React.FC = () => {
   return (
@@ -66,6 +66,11 @@ const DisclaimerFooter: React.FC = () => {
           <span>© 2026 Serenity AI. All rights reserved.</span>
           <span>•</span>
           <a href="/community-guidelines" className="hover:text-cyan-300 transition-colors">Community Guidelines</a>
+          <span>•</span>
+          <a href="/social-simulator" className="text-cyan-400 font-bold hover:text-cyan-300 transition-colors flex items-center gap-1">
+            <ShieldAlert className="w-3 h-3" />
+            Social Safety Demo
+          </a>
           <span>•</span>
           <a href="#" className="hover:text-cyan-300 transition-colors">Terms of Service</a>
           <span>•</span>

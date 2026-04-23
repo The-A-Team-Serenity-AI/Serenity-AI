@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { emotionController, EmotionName, voiceController } from './MascotController';
 import { animationController } from './MascotAnimations';
 import { liveVoiceClient } from './LiveVoiceClient';
+import { useLocation } from 'react-router-dom';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -17,6 +18,8 @@ type VoiceMode = 'off' | 'connecting' | 'live';
 
 const ChatBox: React.FC<ChatBoxProps> = ({ onGreeting }) => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const location = useLocation();
+  const safetyState = location.state as { safetyContext?: boolean, originalComment?: string } | null;
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
@@ -101,18 +104,68 @@ const ChatBox: React.FC<ChatBoxProps> = ({ onGreeting }) => {
     if (greetedRef.current) return;
     greetedRef.current = true;
 
-    const greeting = "Hi! I'm Amy, your AI wellness companion~ Nice to meet you! 💖";
-    setMessages([{ role: 'assistant', text: greeting }]);
-    emotionController.setEmotion('happy');
-    onGreeting?.(greeting, 'happy');
+    if (safetyState?.safetyContext) {
+      // Show an initial empathetic placeholder while AI generates a real response
+      const initialMsg = "I'm here for you... Let me read what happened. 💖";
+      setMessages([{ role: 'assistant', text: initialMsg }]);
+      emotionController.setEmotion('sad');
+      onGreeting?.(initialMsg, 'sad');
+      animationController.playAnimation('shyLookAway', "I'm here...");
 
-    setTimeout(() => {
-      animationController.playAnimation('waveHello', 'Hi~!');
-      if (voiceEnabled) {
-        voiceController.speak(greeting);
-      }
-    }, 500);
-  }, []);
+      // Feed the negative comment to the AI for a REAL consolation response
+      (async () => {
+        setLoading(true);
+        loadingRef.current = true;
+        try {
+          const consolationPrompt = `[SAFETY CONTEXT] The user just encountered this negative comment on social media: "${safetyState.originalComment}". They have been automatically redirected here for emotional support. Please acknowledge the specific hurtful words they saw, explain why those words are not true, validate their feelings, and offer comfort. Be warm, empathetic, and specific to what was said. Do NOT be generic.`;
+
+          const res = await fetch(getApiUrl('/api/mascot/chat'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: consolationPrompt }),
+          });
+          const data = await res.json();
+          const reply = data.reply || "Those words are not a reflection of who you are. You are valued, and I'm glad you're here with me. 💖";
+          const emotion: EmotionName = data.emotion || 'sad';
+
+          setMessages(prev => [...prev, { role: 'assistant', text: reply }]);
+          emotionController.setEmotion(emotion);
+
+          const trigger = animationController.detectReplyTrigger(reply);
+          if (trigger) {
+            animationController.playAnimation(trigger.anim, trigger.bubble);
+          }
+
+          if (voiceEnabledRef.current) {
+            voiceController.speak(reply);
+          }
+        } catch (err) {
+          console.error('Safety consolation error:', err);
+          const fallback = `I noticed someone said "${safetyState.originalComment}" online. Those words don't define you — not even close. You are worthy, capable, and deserving of kindness. I'm right here with you. 💖`;
+          setMessages(prev => [...prev, { role: 'assistant', text: fallback }]);
+          emotionController.setEmotion('sad');
+          if (voiceEnabledRef.current) {
+            voiceController.speak(fallback);
+          }
+        } finally {
+          setLoading(false);
+          loadingRef.current = false;
+        }
+      })();
+    } else {
+      const greeting = "Hi! I'm Amy, your AI wellness companion~ Nice to meet you! 💖";
+      setMessages([{ role: 'assistant', text: greeting }]);
+      emotionController.setEmotion('happy');
+      onGreeting?.(greeting, 'happy');
+
+      setTimeout(() => {
+        animationController.playAnimation('waveHello', 'Hi~!');
+        if (voiceEnabled) {
+          voiceController.speak(greeting);
+        }
+      }, 500);
+    }
+  }, [safetyState]);
 
   // Auto-scroll
   useEffect(() => {
