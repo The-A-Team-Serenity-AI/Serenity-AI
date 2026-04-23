@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/((?!api|sequence|images|models|SerenityAIlogo\\.png).*)", "destination": "/index.html" }
+  ]
+}
