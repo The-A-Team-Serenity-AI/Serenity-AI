@@ -1,13 +1,13 @@
 import { getApiUrl } from './utils/api';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { MessageCircle, User, ChevronDown, Activity } from 'lucide-react';
+import { User, ChevronDown, Activity } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import Chatbot from './legacy/Chatbot';
+
 import AudioTherapy from './pages/AudioTherapy';
 import MoodAssessmentPage from './pages/MoodAssessmentPage';
 import DoctorConsultation from './pages/DoctorConsultation';
@@ -38,7 +38,7 @@ import LogoutButton from './components/LogoutButton';
 function AppContent() {
   // TODO: Consider using a reducer for complex state management
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [showChat, setShowChat] = useState(false);
+
   const [showAgeVerification, setShowAgeVerification] = useState(false);
   const [wellnessScore, setWellnessScore] = useState<number>(100);
   const [showCrisisPopup, setShowCrisisPopup] = useState(true);
@@ -184,15 +184,7 @@ function AppContent() {
               </Link>
             )}
 
-            {/* Chatbot Button */}
-            <Link
-              to="/chat-with-serenity"
-              className="flex items-center space-x-1 px-3 py-1.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-black transition-all font-semibold text-sm"
-              aria-label="Chat with us"
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>Chat</span>
-            </Link>
+
 
             {/* Mascot Button */}
             <Link
@@ -264,8 +256,7 @@ function AppContent() {
       {/* Disclaimer Footer */}
       <DisclaimerFooter />
 
-      {/* Chatbot Component */}
-      {showChat && <Chatbot showChat={showChat} setShowChat={setShowChat} />}
+
 
       {/* Age Verification Modal */}
       {showAgeVerification && <AgeVerificationModal onVerify={handleAgeVerification} />}
