@@ -62,8 +62,8 @@ const MoodAssessment: React.FC = () => {
   const [analysisResult, setAnalysisResult] = useState<{ therapies: string[], reasoning: string, moodSummary: string } | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const MIN_QUESTIONS = 10;
-  const MAX_QUESTIONS = 15;
+  const MIN_QUESTIONS = 9;
+  const MAX_QUESTIONS = 9;
 
   // Helper to get all API keys in a pool
   const getApiKeys = () => {
