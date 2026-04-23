@@ -1,7 +1,7 @@
 import { getApiUrl } from './utils/api';
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { User, ChevronDown, Activity } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { MessageCircle, User, ChevronDown, Activity } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import Services from './pages/Services';
@@ -30,6 +30,7 @@ import CommunityGuidelines from './pages/CommunityGuidelines';
 import CriticalWellnessBanner from './components/CriticalWellnessBanner';
 import CrisisPopup from './components/CrisisPopup';
 import MascotPage from './pages/MascotPage';
+import IntroPage from './pages/IntroPage';
 import LogoutButton from './components/LogoutButton';
 
 // TODO: Consider moving these routes to a separate config file
@@ -45,6 +46,8 @@ function AppContent() {
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isIntroPage = location.pathname === '/intro';
 
   // Check age verification on mount
   useEffect(() => {
@@ -121,7 +124,8 @@ function AppContent() {
         />
       )}
 
-      {/* Navigation */}
+      {/* Navigation - hidden on intro page */}
+      {!isIntroPage && (
       <nav className="bg-black/90 backdrop-blur-sm fixed w-full z-50 border-b border-cyan-400/20">
         <div className="max-w-7xl mx-auto px-6 py-3">
           <div className="flex justify-between items-center gap-4">
@@ -225,11 +229,13 @@ function AppContent() {
           </div>
         </div>
       </nav>
+      )}
 
       {/* Main Content */}
-      <div className="pt-20">
+      <div className={isIntroPage ? '' : 'pt-20'}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/intro" element={<IntroPage />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/audio" element={<AudioTherapy />} />
           <Route path="/services/physical" element={<PhysicalTherapy />} />
@@ -254,12 +260,14 @@ function AppContent() {
       </div>
 
       {/* Disclaimer Footer */}
-      <DisclaimerFooter />
+      {!isIntroPage && <DisclaimerFooter />}
 
 
+      {/* Chatbot Component */}
+      {!isIntroPage && showChat && <Chatbot showChat={showChat} setShowChat={setShowChat} />}
 
       {/* Age Verification Modal */}
-      {showAgeVerification && <AgeVerificationModal onVerify={handleAgeVerification} />}
+      {!isIntroPage && showAgeVerification && <AgeVerificationModal onVerify={handleAgeVerification} />}
     </div>
   );
 }
